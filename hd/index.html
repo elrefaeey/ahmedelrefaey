@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahmed Elrefaey - Frontend Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #2563eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            transition: all 0.3s ease;
+        }
+
+        /* RTL Support */
+        [dir="rtl"] {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .lang-toggle {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .lang-toggle:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .hero .description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .section-title.animate {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg-secondary);
+        }
+
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .about-content.animate {
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .skills {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .skill-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .project-card.animate {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-link {
+            display: inline-block;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero .description {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hidden class for language switching */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Ahmed Elrefaey</div>
+            <ul class="nav-links">
+                <li><a href="#home" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                <li><a href="#about" data-en="About" data-ar="نبذة">About</a></li>
+                <li><a href="#projects" data-en="Projects" data-ar="المشاريع">Projects</a></li>
+                <li><button class="lang-toggle" onclick="toggleLanguage()">العربية</button></li>
+            </ul>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 data-en="Ahmed Elrefaey" data-ar="أحمد الرفاعي">Ahmed Elrefaey</h1>
+            <div class="subtitle" data-en="Frontend Developer & Computer and Communications Engineer" data-ar="مطور واجهات أمامية ومهندس حاسوب واتصالات">Frontend Developer & Computer and Communications Engineer</div>
+            <p class="description" data-en="A passionate frontend developer with experience in HTML, CSS, and JavaScript. I've worked on several real-world projects like accessory e-commerce sites and a photography landing page." data-ar="مطور واجهات أمامية شغوف بخبرة في HTML و CSS و JavaScript. عملت على عدة مشاريع حقيقية مثل مواقع التجارة الإلكترونية للإكسسوارات وصفحة هبوط للتصوير الفوتوغرافي.">A passionate frontend developer with experience in HTML, CSS, and JavaScript. I've worked on several real-world projects like accessory e-commerce sites and a photography landing page.</p>
+            <a href="#projects" class="cta-button" data-en="View My Work" data-ar="اطلع على أعمالي">View My Work</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <h2 class="section-title" data-en="About Me" data-ar="نبذة عني">About Me</h2>
+        <div class="about-content">
+            <p class="about-text" data-en="I'm a Computer and Communications Engineer (CCE) graduate from Mansoura University with a passion for creating beautiful and functional web experiences. My expertise lies in frontend development, where I combine technical skills with creative design to build engaging user interfaces." data-ar="أنا خريج هندسة حاسوب واتصالات من جامعة المنصورة مع شغف لإنشاء تجارب ويب جميلة وعملية. خبرتي تكمن في تطوير الواجهات الأمامية، حيث أجمع بين المهارات التقنية والتصميم الإبداعي لبناء واجهات مستخدم جذابة.">I'm a Computer and Communications Engineer (CCE) graduate from Mansoura University with a passion for creating beautiful and functional web experiences. My expertise lies in frontend development, where I combine technical skills with creative design to build engaging user interfaces.</p>
+            <div class="skills">
+                <span class="skill-tag">HTML5</span>
+                <span class="skill-tag">CSS3</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag" data-en="Responsive Design" data-ar="التصميم المتجاوب">Responsive Design</span>
+                <span class="skill-tag" data-en="E-commerce" data-ar="التجارة الإلكترونية">E-commerce</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <h2 class="section-title" data-en="My Projects" data-ar="مشاريعي">My Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">
+                    <span data-en="Accessories Store" data-ar="متجر الإكسسوارات">Accessories Store</span>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title" data-en="Accessories Website 1" data-ar="موقع الإكسسوارات 1">Accessories Website 1</h3>
+                    <p class="project-description" data-en="A modern e-commerce platform for accessories with responsive design and smooth user experience." data-ar="منصة تجارة إلكترونية حديثة للإكسسوارات مع تصميم متجاوب وتجربة مستخدم سلسة.">A modern e-commerce platform for accessories with responsive design and smooth user experience.</p>
+                    <a href="https://accessories-beta.vercel.app/" target="_blank" class="project-link" data-en="View Live Site" data-ar="عرض الموقع المباشر">View Live Site →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <span data-en="Wazzarti Shop" data-ar="متجر وزارتي">Wazzarti Shop</span>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title" data-en="Accessories Website 2" data-ar="موقع الإكسسوارات 2">Accessories Website 2</h3>
+                    <p class="project-description" data-en="An elegant accessories store with advanced filtering and product showcase features." data-ar="متجر إكسسوارات أنيق مع ميزات تصفية متقدمة وعرض المنتجات.">An elegant accessories store with advanced filtering and product showcase features.</p>
+                    <a href="https://wazzarti-shop-masry.vercel.app/" target="_blank" class="project-link" data-en="View Live Site" data-ar="عرض الموقع المباشر">View Live Site →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <span data-en="Arabesque Store" data-ar="متجر أرابيسك">Arabesque Store</span>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title" data-en="Accessories Website 3" data-ar="موقع الإكسسوارات 3">Accessories Website 3</h3>
+                    <p class="project-description" data-en="A sophisticated accessory store with beautiful UI design and seamless shopping experience." data-ar="متجر إكسسوارات متطور مع تصميم واجهة مستخدم جميل وتجربة تسوق سلسة.">A sophisticated accessory store with beautiful UI design and seamless shopping experience.</p>
+                    <a href="https://arabesque-accessory-store.vercel.app/" target="_blank" class="project-link" data-en="View Live Site" data-ar="عرض الموقع المباشر">View Live Site →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <span data-en="Photography Portfolio" data-ar="معرض التصوير">Photography Portfolio</span>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title" data-en="Photography Website" data-ar="موقع التصوير الفوتوغرافي">Photography Website</h3>
+                    <p class="project-description" data-en="A stunning photography landing page showcasing creative work with elegant galleries and smooth animations." data-ar="صفحة هبوط مذهلة للتصوير الفوتوغرافي تعرض الأعمال الإبداعية مع معارض أنيقة ورسوم متحركة سلسة.">A stunning photography landing page showcasing creative work with elegant galleries and smooth animations.</p>
+                    <a href="https://photographer-nine.vercel.app/" target="_blank" class="project-link" data-en="View Live Site" data-ar="عرض الموقع المباشر">View Live Site →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p data-en="© 2024 Ahmed Elrefaey. All rights reserved." data-ar="© 2024 أحمد الرفاعي. جميع الحقوق محفوظة.">© 2024 Ahmed Elrefaey. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Language switching functionality
+        let currentLang = 'en';
+
+        function toggleLanguage() {
+            const html = document.documentElement;
+            const langButton = document.querySelector('.lang-toggle');
+            
+            if (currentLang === 'en') {
+                currentLang = 'ar';
+                html.setAttribute('lang', 'ar');
+                html.setAttribute('dir', 'rtl');
+                langButton.textContent = 'English';
+                updateContent('ar');
+            } else {
+                currentLang = 'en';
+                html.setAttribute('lang', 'en');
+                html.setAttribute('dir', 'ltr');
+                langButton.textContent = 'العربية';
+                updateContent('en');
+            }
+        }
+
+        function updateContent(lang) {
+            const elements = document.querySelectorAll('[data-en][data-ar]');
+            elements.forEach(element => {
+                if (lang === 'ar') {
+                    element.textContent = element.getAttribute('data-ar');
+                } else {
+                    element.textContent = element.getAttribute('data-en');
+                }
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.section-title, .about-content, .project-card');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('animate');
+                }
+            });
+        }
+
+        // Add staggered animation delay to project cards
+        document.querySelectorAll('.project-card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>
